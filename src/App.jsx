@@ -58,6 +58,7 @@ const Menu = styled.nav`
         color: #fff;
         display: inline-block;
         padding: 15px 20px;
+        transition: 1s;
     }
  
     a:hover {
