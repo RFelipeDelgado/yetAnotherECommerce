@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
+import React from 'react';
 import styled from 'styled-components';
 
-const Cart = () => {
+const Cart = ({cart}) => {
     return (
         <div>
             <h3>Carrito de compras</h3>

@@ -10,13 +10,48 @@ import Cart from './components/CartComponent';
 const App = () => {
 
   const productos = [                 //Este array simula los productos recibidos desde alguna API
-        { id: 1, nombre: "Producto 1" },
-        { id: 2, nombre: "Producto 2" },
-        { id: 3, nombre: "Producto 3" },
-        { id: 4, nombre: "Producto 4" },
-    ]
+    { id: 1, nombre: "Producto 1" },
+    { id: 2, nombre: "Producto 2" },
+    { id: 3, nombre: "Producto 3" },
+    { id: 4, nombre: "Producto 4" },
+  ]
 
-    const [cart, setCart] = useState([])
+  const [cart, setCart] = useState([])
+
+
+  const addProductHandler = (idProduct, name) => {
+    console.log(idProduct, name);
+    //if Cart has no items, add one
+    if (cart.length === 0) {
+      setCart([{ id: idProduct, nombre: name, cantidad: 1 }])
+    } else {
+      //cart has items and we need to make sure if the item is already in the cart so the handler can update its value
+      //or, just add it to the cart if the item is not there
+      const newCart = [...cart];
+      //here we check if the cart already has the item's ID, on this boolean variable
+      const alreadyOnCart = newCart.filter((element) => {
+        return element.id === idProduct
+      }).length > 0
+
+      if (alreadyOnCart) {
+        //if the product is there, we update it
+        //we need the products ID on the Cart array, so we can update it
+        newCart.forEach((cartProduct, index) => {
+          if (cartProduct.id === idProduct) {
+            const amount = newCart[index].cantidad;
+            newCart[index] = { id: idProduct, nombre: name, cantidad: amount + 1 }
+          }
+        })
+
+      }else{
+        newCart.push(
+          {id: idProduct, nombre: name, cantidad: 1}
+        )
+      }
+      //finally, we update the cart
+      setCart(newCart)
+    }
+  }
 
 
   return (
@@ -28,17 +63,15 @@ const App = () => {
       </Menu>
       <main>
         <Routes>
-          <Route path='*' element={<Error404/>} />
-          <Route path='/' element={<Inicio/>} />
-          <Route path='/tienda' element={<Tienda productos={productos}/>} />        
-          <Route path='/blog' element={<Blog/>} />
+          <Route path='*' element={<Error404 />} />
+          <Route path='/' element={<Inicio />} />
+          <Route path='/tienda' element={<Tienda productos={productos} addProductHandler={addProductHandler} />} />
+          <Route path='/blog' element={<Blog />} />
         </Routes>
       </main>
       <aside>
-        <Cart/>
+        <Cart cart={cart} />
       </aside>
-      <div>idflsn</div>
-      <div>idflsn</div>
     </Contenedor>
   );
 }
