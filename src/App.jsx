@@ -1,10 +1,11 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 import { NavLink, Route, Routes } from 'react-router-dom';
 import Inicio from './components/Inicio';
 import Tienda from './components/Tienda';
 import Blog from './components/Blog';
 import Error404 from './components/Error404';
+import Cart from './components/CartComponent';
 
 const App = () => {
 
@@ -14,6 +15,9 @@ const App = () => {
         { id: 3, nombre: "Producto 3" },
         { id: 4, nombre: "Producto 4" },
     ]
+
+    const [cart, setCart] = useState([])
+
 
   return (
     <Contenedor>
@@ -30,6 +34,11 @@ const App = () => {
           <Route path='/blog' element={<Blog/>} />
         </Routes>
       </main>
+      <aside>
+        <Cart/>
+      </aside>
+      <div>idflsn</div>
+      <div>idflsn</div>
     </Contenedor>
   );
 }
@@ -58,7 +67,7 @@ const Menu = styled.nav`
         color: #fff;
         display: inline-block;
         padding: 15px 20px;
-        transition: 1s;
+        transition: 0.3s;
     }
  
     a:hover {
